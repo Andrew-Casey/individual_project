@@ -160,8 +160,8 @@ def approach_stats(train):
     made_cut_no = train[train.made_cut == 0].sg_app_prev
 
     # compare means of the two groups
-    print('Strokes gained approach average of players who made cut:', round(made_cut_yes.mean(),2))
-    print('Strokes gained approach average of players who did not make the cut:', round(made_cut_no.mean(),2))
+    print('Mean strokes gained approach of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained approach of players who did not make the cut:', round(made_cut_no.mean(),2))
 
     # set alpha for all following statistics tests
     alpha = 0.05
@@ -240,8 +240,8 @@ def off_the_tee_stats(train):
     made_cut_no = train[train.made_cut == 0].sg_ott_prev
 
     # compare means of the two groups
-    print('Strokes gained off-the-tee average of players who made cut:', round(made_cut_yes.mean(),2))
-    print('Strokes gained off-the-tee average of players who did not make the cut:', round(made_cut_no.mean(),2))
+    print('Mean strokes gained off-the-tee of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained off-the-tee of players who did not make the cut:', round(made_cut_no.mean(),2))
 
     # set alpha for all following statistics tests
     alpha = 0.05
@@ -320,8 +320,8 @@ def t2g_stats(train):
     made_cut_no = train[train.made_cut == 0].sg_t2g_prev
 
     # compare means of the two groups
-    print('Strokes gained tee-to-green average of players who made cut:', round(made_cut_yes.mean(),2))
-    print('Strokes gained tee-to-green average of players who did not make the cut:', round(made_cut_no.mean(),2))
+    print('Mean strokes gained tee-to-green of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained tee-to-green of players who did not make the cut:', round(made_cut_no.mean(),2))
 
     # set alpha for all following statistics tests
     alpha = 0.05
@@ -401,8 +401,8 @@ def total_stats(train):
 
     # compare means of the two groups
     # compare means of the two groups
-    print('Strokes gained total of players who made cut:', round(made_cut_yes.mean(),2))
-    print('Strokes gained total of players who did not make the cut:', round(made_cut_no.mean(),2))
+    print('Mean strokes gained total of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained total of players who did not make the cut:', round(made_cut_no.mean(),2))
 
     # set alpha for all following statistics tests
     alpha = 0.05
