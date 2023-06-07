@@ -1,13 +1,61 @@
 import pandas as pd
 import numpy as np
 
-
-import wrangle as w
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+
+def get_prepped_pga():
+    """
+    Reads and prepares the PGA data set for analysis.
+
+    Returns:
+        pd.DataFrame: A preprocessed DataFrame containing the PGA data.
+
+    The function performs the following steps:
+    1. Reads the 'PGA_data.csv' file into a DataFrame.
+    2. Drops rows with missing values (nulls).
+    3. Converts all column names to lowercase.
+    4. Drops a specific set of columns that are not relevant to the study.
+    5. Renames selected columns for better readability.
+    6. Converts the 'date' column to datetime format.
+
+    Note:
+        - The 'PGA_data.csv' file must be present in the current directory.
+        - The returned DataFrame is ready for further analysis.
+
+    Example:
+        df = get_prepped_pga()
+        # Perform analysis on the preprocessed data
+    """
+    # get data set
+    df = pd.read_csv('PGA_data.csv', index_col=0) 
+
+    # drop all nulls
+    df = df.dropna()
+
+    #lower case all column names
+    df.columns  = df.columns.str.lower()
+
+    # this study focuses on performance the previous week. Therefore, I am dropping the following columns
+    df = df.drop(columns=['height cm', 'weight lbs', 'dob', 'age','player id', 'tournament id',
+                'season', 'visibility', 'winddirdegree', 'windspeedkmph', 'greensgrass','fariwaysgrass', 
+                'water','bunkers', 'windchillc','windgustkmph', 'cloudcover', 'humidity','precipmm','pressure',
+                'tempc', 'final position', 'major', 'consecutive_cuts_made', 'finish','moonrise', 'sunrise',
+                'sunset', 'dewpointc', 'feelslikec', 'heatindexc', 'maxtempc','mintempc','totalsnow_cm', 'sunhour',
+                'uvindex', 'moon_illumination', 'moonset', 'place','number of rounds', 'sg_putt','sg_arg','sg_app',
+                'sg_ott', 'sg_t2g', 'sg_total', 'score', 'slope','length','par'])
+
+    # rename columns
+    df = df.rename(columns={'tournament name':'tournament_name', 'drive yards':'driving_avg',
+                        'fairways hit':'fairways_hit', 'putts/hole':'putting_avg'})
+
+    #change tournament date to datetime
+    df.date = pd.to_datetime(df.date)   
+
+    return df
 
 def split_data(df, target):
     '''
@@ -19,6 +67,11 @@ def split_data(df, target):
                                        test_size=.25, 
                                        random_state=123, 
                                        stratify=train_validate[target])
+    # reset index
+    train = train.reset_index(drop=True)
+    validate = validate.reset_index(drop=True)
+    test = test.reset_index(drop=True)
+
     return train, validate, test
 
 def scaled_df(train, validate, test):
@@ -70,7 +123,6 @@ def scaled_df(train, validate, test):
     
     return X_train_scaled, X_validate_scaled, X_test_scaled, y_train, y_validate, y_test
 
-#set summarize function
 def summarize(df):
     '''
     summarize will take in a single argument (a pandas dataframe) 
@@ -122,11 +174,20 @@ DataFrame value counts:
     _______________________________________""")                   
         
 # fig, axes = plt.subplots(1, len(get_numeric_cols(df)), figsize=(15, 5))
-    
-    for col in get_numeric_cols(df):
-        sns.histplot(df[col])
-        plt.title(f'Histogram of {col}')
-        plt.show()  
+    num_cols = len(get_numeric_cols(df))
+    num_rows, num_cols_subplot = divmod(num_cols, 3)
+    if num_cols_subplot > 0:
+        num_rows += 1
+
+    fig, axes = plt.subplots(num_rows, 3, figsize=(15, num_rows * 5))
+
+    for i, col in enumerate(get_numeric_cols(df)):
+        row_idx, col_idx = divmod(i, 3)
+        sns.histplot(df[col], ax=axes[row_idx, col_idx])
+        axes[row_idx, col_idx].set_title(f'Histogram of {col}')
+                                         
+    plt.tight_layout()
+    plt.show() 
 
 def nulls_by_col(df):
     """
