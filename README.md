@@ -104,40 +104,28 @@
 - Read over the outputs and form a conclusion and summarize with recommendations/nextsteps.
 
 # Summary
-- The data analysis pipeline (Acquire, Prepare, Explore, Modeling) was completed.
-- All features selected were statistically significant.
-    - These features seemed to be the most important factors
-        - Strokes gained approach
-        - Strokes gained off-the-tee
-        - Strokes gained tee-to-green
-        - Strokes gained total
-- Scaled data with selected features were ran through 4 different predictive models:
-    - Decision Tree
-    - Random Forest
-    - KNN
-    - Logistic Regression
-        - Out of the four models, logistic regression performed the best.
-            - The model scored 61% on the unseen test data set. 5% better than the baseline of 56%.
-            
+- Completed the data analysis pipeline (Acquire, Prepare, Explore, Modeling)... twice.
+- Selected features (strokes gained approach, off-the-tee, tee-to-green, total) were statistically significant, especially when using 2-week averages in the second iteration.
+- Ran scaled data with selected features through four predictive models:
+    - In iteration 1, logistic regression performed the best with 61% accuracy on unseen test data.
+    - In iteration 2, the decision tree outperformed other models with 73% accuracy, surpassing the baseline and the iteration 1 model by 17% and 12%, respectively.
+
 # Recommendations
-- Using this model as a guide, players and sponsors can predict next weeks performance (with 61% accuracy) based on last weeks performance.
-    - In preparation for a tournament, focus on the following to ensure best chances of making the cut:
-        - Strokes gained approach
-        - Strokes gained off-the-tee
-        - Strokes gained tee-to-green
-            - Tee ball accuracy and iron accuracy are premium stats. They add the most strokes gained to players scorecards in average
-    - Caveat 
-        - There are many unquantifiable variables to predict with 100% certainty whether or not a player will make the cut or not. 
-        - This is a better than baseline prediction 
-            - Players can use this a a guide to focus efforts in training
-            - Sponsors can use this data to find players to support
-        
+- Use the iteration 2 model as a guide for predicting next week's performance with 73% accuracy based on recent performance averages.
+- Focus on improving the following factors to increase chances of making the cut:
+    - Strokes gained approach
+    - Strokes gained off-the-tee
+    - Strokes gained tee-to-green
+        - Tee ball accuracy and iron accuracy are crucial for minimizing strokes lost to the field.
+- ***Caveat***: It is impossible to predict with 100% certainty due to unquantifiable variables.
+
 # Next Steps
-- To further investigate the possibility of a more powerful predictive model hidden within this dataset:
-    - I will continue to work on this data set
-        - One possible idea would be to identify good and bad weather players:
-            - To do this, I would feature engineer weather attributes, possibly through clustering
-        - Another direction for predictive modeling:
-            - Create models that are course dependent
-            - Courses are unique and set up to players various strengths and weaknesses 
-        - Explore player demographics (age, height, weight).
+- Further investigation is required for a more robust/powerful predictive model:
+    - Incorporate weather attributes through clustering.
+    - Include course slope and length in the analysis.
+    - Explore player demographics (age, height, weight).
+    - Develop specific models based on course-specific requirements.
+
+```python
+
+```
