@@ -422,3 +422,324 @@ def total_stats(train):
         print("We fail to reject $H_{0}$")
     else:
         print("We reject $H_{0}$")
+
+def approach_viz2(train):
+    """
+    Visualizes the distribution of strokes gained approach in the previous week
+    among golfers who made the cut and those who did not in the next week.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function creates a histogram with overlaid bars to compare the distribution
+    of strokes gained approach ('sg_app_prev') between two groups: golfers who made
+    the cut and golfers who did not. The histogram is displayed using seaborn's
+    histplot with 'sg_app_prev' on the x-axis and 'made_cut' as the hue. The plot
+    is annotated with a title, x-label, and displayed using matplotlib.pyplot.show().
+
+    Example:
+        approach_viz(train)
+        # Displays a histogram comparing strokes gained approach between golfers who
+        # made the cut and those who did not in the next week.
+    """
+    # visualize strokes gained approach in the previous week to making the cut in the next week
+    sns.histplot(data=train, x='sg_app_2wk_avg', hue='made_cut')
+    plt.title('Strokes gained approach between those who made cut and did not')
+    plt.xlabel('Strokes gained approach')
+    plt.show()
+
+def approach_stats2(train):
+    """
+    Performs statistical analysis on strokes gained approach between golfers who
+    made the cut and those who did not, and provides test results and conclusions.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function performs the following steps:
+    1. Creates two subgroups based on 'made_cut' values: 'made_cut_yes' for golfers
+       who made the cut (with 'sg_app_prev' as the strokes gained approach values),
+       and 'made_cut_no' for golfers who did not make the cut.
+    2. Prints the average strokes gained approach for both groups.
+    3. Sets the significance level (alpha) for subsequent statistical tests.
+    4. Performs a Levene test to verify the equality of variances between the two groups,
+       and prints the result.
+    5. Performs an independent two-sample t-test (assuming unequal variances) and prints
+       the result, along with a conclusion based on the p-value and test statistic.
+
+    Note:
+        - The 'train' DataFrame is expected to contain the columns 'made_cut' and
+          'sg_app_prev' for the analysis to be performed.
+
+    Example:
+        approach_stats(train)
+        # Performs statistical analysis on strokes gained approach between golfers who
+        # made the cut and those who did not, and provides the test results and conclusions.
+    """
+    # make sub groups of those who made or didn't make the cut based on strokes gained approach
+    made_cut_yes = train[train.made_cut == 1].sg_app_2wk_avg
+    made_cut_no = train[train.made_cut == 0].sg_app_2wk_avg
+
+    # compare means of the two groups
+    print('Mean strokes gained approach of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained approach of players who did not make the cut:', round(made_cut_no.mean(),2))
+
+    # set alpha for all following statistics tests
+    alpha = 0.05
+
+    #verify equal variance
+    stat, p = levene(made_cut_yes, made_cut_no)
+    if p < alpha:
+        print("Variance is not equal (ttest_ind equal_var set to False)")
+    else:
+        print("Equal variances (ttest_ind equal_var set to True)")
+
+    #run stats test
+    t, p = stats.ttest_ind(made_cut_yes, made_cut_no, equal_var=False)
+    if p/2 > alpha:
+        print("We fail to reject $H_{0}$")
+    elif t < 0:
+        print("We fail to reject $H_{0}$")
+    else:
+        print("We reject $H_{0}$")
+
+def off_the_tee_viz2(train):
+    """
+    Visualizes the distribution of strokes gained off-the-tee in the previous week
+    among golfers who made the cut and those who did not in the next week.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function creates a histogram with overlaid bars to compare the distribution
+    of strokes gained off-the-tee ('sg_ott_prev') between two groups: golfers who made
+    the cut and golfers who did not. The histogram is displayed using seaborn's histplot
+    with 'sg_ott_prev' on the x-axis and 'made_cut' as the hue. The plot is annotated
+    with a title, x-label, and displayed using matplotlib.pyplot.show().
+
+    Example:
+        off_the_tee_viz(train)
+        # Displays a histogram comparing strokes gained off-the-tee between golfers who
+        # made the cut and those who did not in the next week.
+    """
+    # visualize strokes gained off-the-tee in the previous week to making the cut in the next week
+    sns.histplot(data=train, x='sg_ott_2wk_avg', hue='made_cut')
+    plt.title('Strokes gained off-the-tee between those who made cut and did not')
+    plt.xlabel('Strokes gained off-the-tee')
+    plt.show()
+
+def off_the_tee_stats2(train):
+    """
+    Performs statistical analysis on strokes gained off-the-tee between golfers who
+    made the cut and those who did not, and provides test results and conclusions.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function performs the following steps:
+    1. Creates two subgroups based on 'made_cut' values: 'made_cut_yes' for golfers
+       who made the cut (with 'sg_ott_prev' as the strokes gained off-the-tee values),
+       and 'made_cut_no' for golfers who did not make the cut.
+    2. Prints the average strokes gained off-the-tee for both groups.
+    3. Sets the significance level (alpha) for subsequent statistical tests.
+    4. Performs a Levene test to verify the equality of variances between the two groups,
+       and prints the result.
+    5. Performs an independent two-sample t-test (assuming unequal variances) and prints
+       the result, along with a conclusion based on the p-value and test statistic.
+
+    Note:
+        - The 'train' DataFrame is expected to contain the columns 'made_cut' and
+          'sg_ott_prev' for the analysis to be performed.
+
+    Example:
+        off_the_tee_stats(train)
+        # Performs statistical analysis on strokes gained off-the-tee between golfers who
+        # made the cut and those who did not, and provides the test results and conclusions.
+    """
+    # make sub groups of those who made or didn't make the cut based on strokes gained off-the-tee
+    made_cut_yes = train[train.made_cut == 1].sg_ott_2wk_avg
+    made_cut_no = train[train.made_cut == 0].sg_ott_2wk_avg
+
+    # compare means of the two groups
+    print('Mean strokes gained off-the-tee of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained off-the-tee of players who did not make the cut:', round(made_cut_no.mean(),2))
+
+    # set alpha for all following statistics tests
+    alpha = 0.05
+
+    #verify equal variance
+    stat, p = levene(made_cut_yes, made_cut_no)
+    if p < alpha:
+        print("Variance is not equal (ttest_ind equal_var set to False)")
+    else:
+        print("Equal variances (ttest_ind equal_var set to True)")
+
+    #run stats test
+    t, p = stats.ttest_ind(made_cut_yes, made_cut_no, equal_var=False)
+    if p/2 > alpha:
+        print("We fail to reject $H_{0}$")
+    elif t < 0:
+        print("We fail to reject $H_{0}$")
+    else:
+        print("We reject $H_{0}$")
+
+def t2g_viz2(train):
+    """
+    Visualizes the distribution of strokes gained tee-to-green in the previous week
+    among golfers who made the cut and those who did not in the next week.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function creates a histogram with overlaid bars to compare the distribution
+    of strokes gained tee-to-green ('sg_t2g_prev') between two groups: golfers who made
+    the cut and golfers who did not. The histogram is displayed using seaborn's histplot
+    with 'sg_t2g_prev' on the x-axis and 'made_cut' as the hue. The plot is annotated
+    with a title, x-label, and displayed using matplotlib.pyplot.show().
+
+    Example:
+        t2g_viz(train)
+        # Displays a histogram comparing strokes gained tee-to-green between golfers who
+        # made the cut and those who did not in the next week.
+    """
+    # visualize strokes gained tee-to-green in the previous week to making the cut in the next week
+    sns.histplot(data=train, x='sg_t2g_2wk_avg', hue='made_cut')
+    plt.title('Strokes gained tee-to-green between those who made cut and did not')
+    plt.xlabel('Strokes gained tee-to-green')
+    plt.show()
+
+def t2g_stats2(train):
+    """
+    Performs statistical analysis on strokes gained tee-to-green between golfers who
+    made the cut and those who did not, and provides test results and conclusions.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function performs the following steps:
+    1. Creates two subgroups based on 'made_cut' values: 'made_cut_yes' for golfers
+       who made the cut (with 'sg_t2g_prev' as the strokes gained tee-to-green values),
+       and 'made_cut_no' for golfers who did not make the cut.
+    2. Prints the average strokes gained tee-to-green for both groups.
+    3. Sets the significance level (alpha) for subsequent statistical tests.
+    4. Performs a Levene test to verify the equality of variances between the two groups,
+       and prints the result.
+    5. Performs an independent two-sample t-test (assuming unequal variances) and prints
+       the result, along with a conclusion based on the p-value and test statistic.
+
+    Note:
+        - The 'train' DataFrame is expected to contain the columns 'made_cut' and
+          'sg_t2g_prev' for the analysis to be performed.
+
+    Example:
+        t2g_stats(train)
+        # Performs statistical analysis on strokes gained tee-to-green between golfers who
+        # made the cut and those who did not, and provides the test results and conclusions.
+    """
+    # make sub groups of those who made or didn't make the cut based on strokes gained tee-to-green
+    made_cut_yes = train[train.made_cut == 1].sg_t2g_2wk_avg
+    made_cut_no = train[train.made_cut == 0].sg_t2g_2wk_avg
+
+    # compare means of the two groups
+    print('Mean strokes gained tee-to-green of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained tee-to-green of players who did not make the cut:', round(made_cut_no.mean(),2))
+
+    # set alpha for all following statistics tests
+    alpha = 0.05
+
+    #verify equal variance
+    stat, p = levene(made_cut_yes, made_cut_no)
+    if p < alpha:
+        print("Variance is not equal (ttest_ind equal_var set to False)")
+    else:
+        print("Equal variances (ttest_ind equal_var set to True)")
+
+    #run stats test
+    t, p = stats.ttest_ind(made_cut_yes, made_cut_no, equal_var=False)
+    if p/2 > alpha:
+        print("We fail to reject $H_{0}$")
+    elif t < 0:
+        print("We fail to reject $H_{0}$")
+    else:
+        print("We reject $H_{0}$")
+
+def total_viz2(train):
+    """
+    Visualizes the distribution of strokes gained total in the previous week
+    among golfers who made the cut and those who did not in the next week.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function creates a histogram with overlaid bars to compare the distribution
+    of strokes gained total ('sg_total_prev') between two groups: golfers who made
+    the cut and golfers who did not. The histogram is displayed using seaborn's histplot
+    with 'sg_total_prev' on the x-axis and 'made_cut' as the hue. The plot is annotated
+    with a title, x-label, and displayed using matplotlib.pyplot.show().
+
+    Example:
+        total_viz(train)
+        # Displays a histogram comparing strokes gained total between golfers who
+        # made the cut and those who did not in the next week.
+    """
+    # visualize strokes gained total in the previous week to making the cut in the next week
+    sns.histplot(data=train, x='sg_total_2wk_avg', hue='made_cut')
+    plt.title('Strokes gained total between those who made cut and did not')
+    plt.xlabel('Strokes gained total')
+    plt.show()
+
+def total_stats2(train):
+    """
+    Performs statistical analysis on strokes gained total between golfers who made the cut
+    and those who did not, and provides test results and conclusions.
+
+    Args:
+        train (pd.DataFrame): The training dataset containing relevant data.
+
+    The function performs the following steps:
+    1. Creates two subgroups based on 'made_cut' values: 'made_cut_yes' for golfers
+       who made the cut (with 'sg_total_prev' as the strokes gained total values),
+       and 'made_cut_no' for golfers who did not make the cut.
+    2. Prints the average strokes gained total for both groups.
+    3. Sets the significance level (alpha) for subsequent statistical tests.
+    4. Performs a Levene test to verify the equality of variances between the two groups,
+       and prints the result.
+    5. Performs an independent two-sample t-test (assuming unequal variances) and prints
+       the result, along with a conclusion based on the p-value and test statistic.
+
+    Note:
+        - The 'train' DataFrame is expected to contain the columns 'made_cut' and
+          'sg_total_prev' for the analysis to be performed.
+
+    Example:
+        total_stats(train)
+        # Performs statistical analysis on strokes gained total between golfers who
+        # made the cut and those who did not, and provides the test results and conclusions.
+    """
+    # make sub groups of those who made or didn't make the cut based on strokes gained total
+    made_cut_yes = train[train.made_cut == 1].sg_total_2wk_avg
+    made_cut_no = train[train.made_cut == 0].sg_total_2wk_avg
+
+    # compare means of the two groups
+    # compare means of the two groups
+    print('Mean strokes gained total of players who made cut:', round(made_cut_yes.mean(),2))
+    print('Mean strokes gained total of players who did not make the cut:', round(made_cut_no.mean(),2))
+
+    # set alpha for all following statistics tests
+    alpha = 0.05
+
+    #verify equal variance
+    stat, p = levene(made_cut_yes, made_cut_no)
+    if p < alpha:
+        print("Variance is not equal (ttest_ind equal_var set to False)")
+    else:
+        print("Equal variances (ttest_ind equal_var set to True)")
+
+    #run stats test
+    t, p = stats.ttest_ind(made_cut_yes, made_cut_no, equal_var=False)
+    if p/2 > alpha:
+        print("We fail to reject $H_{0}$")
+    elif t < 0:
+        print("We fail to reject $H_{0}$")
+    else:
+        print("We reject $H_{0}$")
