@@ -102,9 +102,6 @@ def target_viz(train):
     
     # Customize x-axis labels
     plt.gca().set_xticklabels(['No', 'Yes'])
-
-    # Customize legend labels
-    plt.legend(['No', 'Yes'])
     plt.xlabel('Made cut')
     plt.show() 
 
