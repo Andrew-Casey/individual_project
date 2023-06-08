@@ -218,6 +218,11 @@ def plot_target(train):
     sns.countplot(x=train.made_cut)
     plt.title('Target = Made Cut')
     plt.xlabel('Made Cut')
+    # Customize x-axis labels
+    plt.gca().set_xticklabels(['No', 'Yes'])
+
+    # Customize legend labels
+    plt.legend(['No', 'Yes'])
     plt.ylabel('Count')
     plt.show()
 

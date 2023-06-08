@@ -99,6 +99,12 @@ def target_viz(train):
     """
     sns.countplot(data=train, x= 'made_cut')
     plt.title('Target visualization')
+    
+    # Customize x-axis labels
+    plt.gca().set_xticklabels(['No', 'Yes'])
+
+    # Customize legend labels
+    plt.legend(['No', 'Yes'])
     plt.xlabel('Made cut')
     plt.show() 
 
@@ -125,6 +131,8 @@ def approach_viz(train):
     sns.histplot(data=train, x='sg_app_prev', hue='made_cut')
     plt.title('Strokes gained approach between those who made cut and did not')
     plt.xlabel('Strokes gained approach')
+    # Customize legend labels
+    plt.legend(['Yes', 'No'])
     plt.show()
 
 def approach_stats(train):
@@ -205,6 +213,8 @@ def off_the_tee_viz(train):
     sns.histplot(data=train, x='sg_ott_prev', hue='made_cut')
     plt.title('Strokes gained off-the-tee between those who made cut and did not')
     plt.xlabel('Strokes gained off-the-tee')
+     # Customize legend labels
+    plt.legend(['Yes','No'])
     plt.show()
 
 def off_the_tee_stats(train):
@@ -285,6 +295,7 @@ def t2g_viz(train):
     sns.histplot(data=train, x='sg_t2g_prev', hue='made_cut')
     plt.title('Strokes gained tee-to-green between those who made cut and did not')
     plt.xlabel('Strokes gained tee-to-green')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def t2g_stats(train):
@@ -365,6 +376,7 @@ def total_viz(train):
     sns.histplot(data=train, x='sg_total_prev', hue='made_cut')
     plt.title('Strokes gained total between those who made cut and did not')
     plt.xlabel('Strokes gained total')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def total_stats(train):
@@ -446,6 +458,7 @@ def approach_viz2(train):
     sns.histplot(data=train, x='sg_app_2wk_avg', hue='made_cut')
     plt.title('Strokes gained approach between those who made cut and did not')
     plt.xlabel('Strokes gained approach')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def approach_stats2(train):
@@ -526,6 +539,7 @@ def off_the_tee_viz2(train):
     sns.histplot(data=train, x='sg_ott_2wk_avg', hue='made_cut')
     plt.title('Strokes gained off-the-tee between those who made cut and did not')
     plt.xlabel('Strokes gained off-the-tee')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def off_the_tee_stats2(train):
@@ -606,6 +620,7 @@ def t2g_viz2(train):
     sns.histplot(data=train, x='sg_t2g_2wk_avg', hue='made_cut')
     plt.title('Strokes gained tee-to-green between those who made cut and did not')
     plt.xlabel('Strokes gained tee-to-green')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def t2g_stats2(train):
@@ -686,6 +701,7 @@ def total_viz2(train):
     sns.histplot(data=train, x='sg_total_2wk_avg', hue='made_cut')
     plt.title('Strokes gained total between those who made cut and did not')
     plt.xlabel('Strokes gained total')
+    plt.legend(['Yes','No'])
     plt.show()
 
 def total_stats2(train):
